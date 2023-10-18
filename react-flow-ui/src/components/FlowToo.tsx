@@ -16,10 +16,17 @@ import ReactFlow, {
   Background,
 } from 'reactflow';
 
+import 'reactflow/dist/style.css';
+
 import CustomNode from './CustomNode';
 
 const initialNodes: Node[] = [
-  { id: '1', data: { label: 'Node 1' }, position: { x: 5, y: 5 } },
+  {
+    id: '1',
+    type: 'custom',
+    data: { label: 'Node 1' },
+    position: { x: 5, y: 5 },
+  },
   { id: '2', data: { label: 'Node 2' }, position: { x: 5, y: 100 } },
 ];
 
@@ -54,6 +61,10 @@ export default function FlowToo() {
     [setEdges]
   );
 
+  const rfStyle = {
+    backgroundColor: '#f2f4fc',
+  };
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -65,10 +76,11 @@ export default function FlowToo() {
       fitViewOptions={fitViewOptions}
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
+      style={rfStyle}
     >
-      \<Controls />
+      <Controls />
       <MiniMap />
-      <Background gap={10} size={2} />
+      <Background />
     </ReactFlow>
   );
 }
