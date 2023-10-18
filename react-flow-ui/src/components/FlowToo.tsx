@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import ReactFlow, {
   addEdge,
   FitViewOptions,
@@ -8,26 +8,48 @@ import ReactFlow, {
   Edge,
   OnNodesChange,
   OnEdgesChange,
+  useNodesState,
+  useEdgesState,
+  updateEdge,
   OnConnect,
   DefaultEdgeOptions,
   NodeTypes,
   MiniMap,
   Controls,
   Background,
+  Connection,
 } from 'reactflow';
 
 import 'reactflow/dist/style.css';
 
 import CustomNode from './CustomNode';
+import CustomConnectionLine from './CustomConnectionLine';
 
 const initialNodes: Node[] = [
   {
     id: '1',
     type: 'custom',
-    data: { label: 'Node 1' },
+    data: { label: 'API トリガー', image: 'flow-chart-icons/API.svg' },
     position: { x: 5, y: 5 },
   },
-  { id: '2', data: { label: 'Node 2' }, position: { x: 5, y: 100 } },
+  {
+    id: '2',
+    type: 'custom',
+    data: { label: 'テーブル分岐', image: 'flow-chart-icons/2.svg' },
+    position: { x: 5, y: 100 },
+  },
+  {
+    id: '3',
+    type: 'custom',
+    data: { label: 'KUKURU', image: 'flow-chart-icons/1.svg' },
+    position: { x: 5, y: 200 },
+  },
+  {
+    id: '4',
+    type: 'custom',
+    data: { label: 'データ拡張', image: 'flow-chart-icons/3.svg' },
+    position: { x: 5, y: 300 },
+  },
 ];
 
 const initialEdges: Edge[] = [{ id: 'e1-2', source: '1', target: '2' }];
@@ -41,25 +63,35 @@ const defaultEdgeOptions: DefaultEdgeOptions = {
 };
 
 const nodeTypes: NodeTypes = {
-  custom: CustomNode,
+  custom: (props) => <CustomNode {...props} />,
 };
 
 export default function FlowToo() {
-  const [nodes, setNodes] = useState<Node[]>(initialNodes);
-  const [edges, setEdges] = useState<Edge[]>(initialEdges);
+  const edgeUpdateSuccessful = useRef(true);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onNodesChange: OnNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+  const onConnect = useCallback((params:any) => setEdges((eds) => addEdge(params, eds)), []);
+
+  const onEdgeUpdateStart = useCallback(() => {
+    edgeUpdateSuccessful.current = false;
+  }, []);
+
+  const onEdgeUpdate = useCallback(
+    (oldEdge: Edge, newConnection: Connection) => {
+      edgeUpdateSuccessful.current = true;
+      setEdges((els) => updateEdge(oldEdge, newConnection, els));
+    },
+    []
   );
-  const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-  const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
-  );
+
+  const onEdgeUpdateEnd = useCallback((_: any, edge: Edge) => {
+    if (!edgeUpdateSuccessful.current) {
+      setEdges((eds) => eds.filter((e) => e.id !== edge.id));
+    }
+
+    edgeUpdateSuccessful.current = true;
+  }, []);
 
   const rfStyle = {
     backgroundColor: '#f2f4fc',
@@ -72,10 +104,15 @@ export default function FlowToo() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
+      onEdgeUpdate={onEdgeUpdate}
+      onEdgeUpdateStart={onEdgeUpdateStart}
+      onEdgeUpdateEnd={onEdgeUpdateEnd}
       fitView
       fitViewOptions={fitViewOptions}
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
+      snapToGrid
+      // connectionLineComponent={CustomConnectionLine}
       style={rfStyle}
     >
       <Controls />

@@ -1,9 +1,13 @@
-import { memo, FC, CSSProperties } from 'react';
-import { Handle, Position, NodeProps, NodeResizer } from 'reactflow';
-import styles from './CustomNode.module.css';
+import { memo, FC } from 'react';
+import { Handle, Position, NodeProps } from 'reactflow';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
+// type Props = {
+//   label: string;
+//   title: string;
+//   image: string;
+// };
 
 const CustomNode: FC<NodeProps> = ({ data }) => {
   return (
@@ -17,7 +21,7 @@ const CustomNode: FC<NodeProps> = ({ data }) => {
     >
       <Box
         sx={{
-          backgroundColor: 'white',
+          backgroundColor: '#FFFFFF',
           height: '60px',
           width: '60px',
           border: 1,
@@ -31,7 +35,7 @@ const CustomNode: FC<NodeProps> = ({ data }) => {
         }}
       >
         <Image
-          src="flow-chart-icons/API.svg"
+          src={data.image}
           alt="API"
           width={50}
           height={50}
@@ -50,7 +54,7 @@ const CustomNode: FC<NodeProps> = ({ data }) => {
         />
       </Box>
       <Typography sx={{ fontSize: '12px', color: '#525F90' }}>
-        API トリガー
+       {data.label}
       </Typography>
     </Box>
   );
