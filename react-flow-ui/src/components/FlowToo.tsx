@@ -23,7 +23,7 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 
 import CustomNode from './CustomNode';
-import CustomConnectionLine from './CustomConnectionLine';
+// import CustomConnectionLine from './CustomConnectionLine';
 
 const initialNodes: Node[] = [
   {
@@ -52,7 +52,7 @@ const initialNodes: Node[] = [
   },
 ];
 
-const initialEdges: Edge[] = [{ id: 'e1-2', source: '1', target: '2' }];
+const initialEdges = [{ id: 'e1-2', source: '1-a', target: '2-b', label: 'updatable edge' }];
 
 const fitViewOptions: FitViewOptions = {
   padding: 0.2,
@@ -71,7 +71,10 @@ export default function FlowToo() {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect = useCallback((params:any) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect = useCallback(
+    (params: any) => setEdges((els) => addEdge(params, els)),
+    []
+  );
 
   const onEdgeUpdateStart = useCallback(() => {
     edgeUpdateSuccessful.current = false;
@@ -101,9 +104,9 @@ export default function FlowToo() {
     <ReactFlow
       nodes={nodes}
       edges={edges}
+      onConnect={onConnect}
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
       onEdgeUpdate={onEdgeUpdate}
       onEdgeUpdateStart={onEdgeUpdateStart}
       onEdgeUpdateEnd={onEdgeUpdateEnd}
@@ -111,12 +114,10 @@ export default function FlowToo() {
       fitViewOptions={fitViewOptions}
       defaultEdgeOptions={defaultEdgeOptions}
       nodeTypes={nodeTypes}
-      snapToGrid
       // connectionLineComponent={CustomConnectionLine}
       style={rfStyle}
     >
       <Controls />
-      <MiniMap />
       <Background />
     </ReactFlow>
   );
