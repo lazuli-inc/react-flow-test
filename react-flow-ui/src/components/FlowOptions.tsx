@@ -11,6 +11,7 @@ export const nodeTypes: NodeTypes = {
   custom: CustomNode,
 };
 
+
 export const initialNodes: Node[] = [
   {
     id: '1',

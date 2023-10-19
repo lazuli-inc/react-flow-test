@@ -1,6 +1,7 @@
-import { memo, FC } from 'react';
-import { Handle, Position, NodeProps, Node } from 'reactflow';
-import { Box, Typography } from '@mui/material';
+import { memo, FC, useCallback } from 'react';
+import { Handle, Position, NodeProps, useReactFlow } from 'reactflow';
+import { Box, Typography, IconButton } from '@mui/material';
+import { Clear } from '@mui/icons-material/';
 import Image from 'next/image';
 
 type NodeData = {
@@ -9,7 +10,17 @@ type NodeData = {
   image: string;
 };
 
-const CustomNode: FC<NodeProps> = ({ data, isConnectable }: NodeProps<NodeData>) => {
+const CustomNode: FC<NodeProps> = ({
+  id,
+  data,
+  isConnectable,
+}: NodeProps<NodeData>) => {
+  const { deleteElements } = useReactFlow();
+
+  const onClick = useCallback(() => {
+    deleteElements({ nodes: [{ id }] });
+  }, [id, deleteElements]);
+
   return (
     <Box
       sx={{
@@ -19,6 +30,10 @@ const CustomNode: FC<NodeProps> = ({ data, isConnectable }: NodeProps<NodeData>)
         alignItems: 'center',
       }}
     >
+      <IconButton onClick={onClick} sx={{ right: '-50px', bottom: '-25px' }}>
+        <Clear />
+      </IconButton>
+      
       <Box
         sx={{
           backgroundColor: '#FFFFFF',

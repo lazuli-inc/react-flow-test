@@ -1,11 +1,4 @@
-import {
-  useState,
-  useCallback,
-  useRef,
-  MutableRefObject,
-  ReactNode,
-  ReactElement,
-} from 'react';
+import { useState, useCallback, useRef } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
@@ -24,7 +17,6 @@ import 'reactflow/dist/style.css';
 import {
   initialNodes,
   initialEdges,
-  fitViewOptions,
   defaultEdgeOptions,
   nodeTypes,
   rfStyle,
@@ -32,6 +24,7 @@ import {
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
+
 export default function FlowToo() {
   const [reactFlowInstance, setReactFlowInstance] =
     useState<null | ReactFlowInstance>(null);
@@ -43,6 +36,7 @@ export default function FlowToo() {
     (params: any) => setEdges((els) => addEdge(params, els)),
     []
   );
+
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
