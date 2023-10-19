@@ -53,7 +53,8 @@ export default function FlowToo() {
     (event: any) => {
       event.preventDefault();
 
-      const reactFlowBounds = reactFlowWrapper!.current!.getBoundingClientRect();
+      const reactFlowBounds =
+        reactFlowWrapper!.current!.getBoundingClientRect();
       const type = event.dataTransfer.getData('application/reactflow');
 
       // check if the dropped element is valid
@@ -65,11 +66,18 @@ export default function FlowToo() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
+      type NodeData = { label: string; image: string };
+      const nodeMap: Record<string, NodeData> = {
+        API: { label: 'API トリガー', image: 'flow-chart-icons/API.svg' },
+        table: { label: 'テーブル分岐', image: 'flow-chart-icons/2.svg' },
+        kukuru: { label: 'KUKURU', image: 'flow-chart-icons/1.svg' },
+        data: { label: 'データ拡張', image: 'flow-chart-icons/3.svg' },
+      };
       const newNode = {
         id: getId(),
-        type,
+        type: 'custom',
         position,
-        data: { label: `${type} node` },
+        data: { label: nodeMap[type].label, image: nodeMap[type].image },
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -99,27 +107,27 @@ export default function FlowToo() {
 
   return (
     <ReactFlowProvider>
-      <Box style={{ width: '100vw', height: '90vh' }}ref={reactFlowWrapper}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        snapToGrid
-        onEdgeUpdate={onEdgeUpdate}
-        onEdgeUpdateStart={onEdgeUpdateStart}
-        onEdgeUpdateEnd={onEdgeUpdateEnd}
-        onConnect={onConnect}
-        defaultEdgeOptions={defaultEdgeOptions}
-        nodeTypes={nodeTypes}
-        style={rfStyle}
-        onInit={setReactFlowInstance}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-      >
-        <Controls />
-        <Background />
-      </ReactFlow>
+      <Box style={{ width: '100vw', height: '90vh' }} ref={reactFlowWrapper}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          snapToGrid
+          onEdgeUpdate={onEdgeUpdate}
+          onEdgeUpdateStart={onEdgeUpdateStart}
+          onEdgeUpdateEnd={onEdgeUpdateEnd}
+          onConnect={onConnect}
+          defaultEdgeOptions={defaultEdgeOptions}
+          nodeTypes={nodeTypes}
+          style={rfStyle}
+          onInit={setReactFlowInstance}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+        >
+          <Controls />
+          <Background />
+        </ReactFlow>
       </Box>
     </ReactFlowProvider>
   );
