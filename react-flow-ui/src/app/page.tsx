@@ -1,6 +1,7 @@
 'use client';
 
 import FlowToo from 'components/FlowToo';
+import { SideBar } from 'components/Sidebar';
 import React from 'react';
 
 
@@ -8,7 +9,8 @@ import React from 'react';
 export default function Home() {
   return (
     // <main className={styles.main}>
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div>
+      <SideBar/>
       <FlowToo />
     </div>
     // </main>
