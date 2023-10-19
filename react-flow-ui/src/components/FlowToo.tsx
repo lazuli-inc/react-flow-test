@@ -20,10 +20,11 @@ import {
   defaultEdgeOptions,
   nodeTypes,
   rfStyle,
+  edgeTypes,
+  getId,
+  nodeMap,
 } from './FlowOptions';
-
-let id = 0;
-const getId = () => `dndnode_${id++}`;
+import CustomConnectionLine from './CustomConnectionLine';
 
 export default function FlowToo() {
   const [reactFlowInstance, setReactFlowInstance] =
@@ -36,7 +37,6 @@ export default function FlowToo() {
     (params: any) => setEdges((els) => addEdge(params, els)),
     []
   );
-
 
   const onDragOver = useCallback((event: any) => {
     event.preventDefault();
@@ -60,13 +60,7 @@ export default function FlowToo() {
         x: event.clientX - reactFlowBounds.left,
         y: event.clientY - reactFlowBounds.top,
       });
-      type NodeData = { label: string; image: string };
-      const nodeMap: Record<string, NodeData> = {
-        API: { label: 'API トリガー', image: 'flow-chart-icons/API.svg' },
-        table: { label: 'テーブル分岐', image: 'flow-chart-icons/2.svg' },
-        kukuru: { label: 'KUKURU', image: 'flow-chart-icons/1.svg' },
-        data: { label: 'データ拡張', image: 'flow-chart-icons/3.svg' },
-      };
+
       const newNode = {
         id: getId(),
         type: 'custom',
@@ -114,10 +108,12 @@ export default function FlowToo() {
           onConnect={onConnect}
           defaultEdgeOptions={defaultEdgeOptions}
           nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
           style={rfStyle}
           onInit={setReactFlowInstance}
           onDrop={onDrop}
           onDragOver={onDragOver}
+          connectionLineComponent={CustomConnectionLine}
         >
           <Controls />
           <Background />

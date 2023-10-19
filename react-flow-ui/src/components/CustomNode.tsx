@@ -33,7 +33,7 @@ const CustomNode: FC<NodeProps> = ({
       <IconButton onClick={onClick} sx={{ right: '-50px', bottom: '-25px' }}>
         <Clear />
       </IconButton>
-      
+
       <Box
         sx={{
           backgroundColor: '#FFFFFF',
@@ -56,7 +56,6 @@ const CustomNode: FC<NodeProps> = ({
           id="a"
           style={{ background: '#8A91AE' }}
           isConnectable={isConnectable}
-          onConnect={(params) => console.log('handle onConnect', params)}
         />
         <Handle
           type="target"
@@ -64,7 +63,6 @@ const CustomNode: FC<NodeProps> = ({
           id="b"
           style={{ background: '#8A91AE' }}
           isConnectable={isConnectable}
-          onConnect={(params) => console.log('handle onConnect', params)}
         />
       </Box>
       <Typography sx={{ fontSize: '12px', color: '#525F90' }}>

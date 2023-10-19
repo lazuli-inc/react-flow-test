@@ -1,16 +1,22 @@
 import CustomNode from './CustomNode';
+import DeleteButtonEdge from './DeleteButtonEdge';
 import {
   FitViewOptions,
   Node,
   Edge,
   DefaultEdgeOptions,
   NodeTypes,
+  EdgeTypes,
 } from 'reactflow';
+
 
 export const nodeTypes: NodeTypes = {
   custom: CustomNode,
 };
 
+export const edgeTypes: EdgeTypes = {
+  buttonedge: DeleteButtonEdge,
+};
 
 export const initialNodes: Node[] = [
   {
@@ -51,4 +57,14 @@ export const defaultEdgeOptions: DefaultEdgeOptions = {
 
 export const rfStyle = {
   backgroundColor: '#f2f4fc',
+};
+
+export let id = 0;
+export const getId = () => `dndnode_${id++}`;
+export type NodeData = { label: string; image: string };
+export const nodeMap: Record<string, NodeData> = {
+  API: { label: 'API トリガー', image: 'flow-chart-icons/API.svg' },
+  table: { label: 'テーブル分岐', image: 'flow-chart-icons/2.svg' },
+  kukuru: { label: 'KUKURU', image: 'flow-chart-icons/1.svg' },
+  data: { label: 'データ拡張', image: 'flow-chart-icons/3.svg' },
 };
