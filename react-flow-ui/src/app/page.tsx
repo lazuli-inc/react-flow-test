@@ -1,18 +1,14 @@
 'use client';
 
 import FlowToo from 'components/FlowToo';
-import { SideBar } from 'components/Sidebar';
+import { FlowMenu } from 'components/FlowMenu';
 import React from 'react';
-
-
 
 export default function Home() {
   return (
-    // <main className={styles.main}>
     <div>
-      <SideBar/>
+      <FlowMenu />
       <FlowToo />
     </div>
-    // </main>
   );
 }
