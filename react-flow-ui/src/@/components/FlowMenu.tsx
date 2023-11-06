@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, Button, Menu, MenuItem } from '@mui/material';
 
 export function FlowMenu() {
   const onDragStart = (
@@ -10,8 +10,32 @@ export function FlowMenu() {
     event.dataTransfer.effectAllowed = 'move';
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Box sx={{ width: '100%', height: '30%' }}>
+      <Button
+        id="basic-button"
+        aria-controls={open ? 'basic-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
+        MENU
+      </Button>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      >
         <div
           className="dndnode"
           onDragStart={(event) => onDragStart(event, 'API')}
@@ -41,6 +65,7 @@ export function FlowMenu() {
         >
           データ拡張
         </div>
+      </Menu>
     </Box>
   );
 }
