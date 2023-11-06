@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, Button, Menu, MenuItem } from '@mui/material';
+import { Box } from '@mui/material';
 
-export function FlowMenu() {
+export function SideBar() {
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     nodeType: string
@@ -10,40 +10,19 @@ export function FlowMenu() {
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Box sx={{ width: '100%', height: '30%' }}>
-      <Button
-        id="basic-button"
-        aria-controls={open ? 'basic-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        MENU
-      </Button>
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      >
+      <aside>
+        <div className="description">
+          You can drag these nodes to the bottom
+        </div>
         <div
-          className="dndnode"
+          className="dndnode input"
           onDragStart={(event) => onDragStart(event, 'API')}
           draggable
         >
           API トリガー
         </div>
-
         <div
           className="dndnode"
           onDragStart={(event) => onDragStart(event, 'table')}
@@ -65,7 +44,7 @@ export function FlowMenu() {
         >
           データ拡張
         </div>
-      </Menu>
+      </aside>
     </Box>
   );
 }
