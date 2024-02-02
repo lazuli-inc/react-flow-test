@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import DialogComponent from 'components/DialogComponent';
 import { Box } from '@mui/material';
 
 export function SideBar() {
+  const [dialogOpen, setDialogOpen] = useState(true);
+
   const onDragStart = (
     event: React.DragEvent<HTMLDivElement>,
     nodeType: string
@@ -9,10 +12,20 @@ export function SideBar() {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
   };
-
+  
   return (
     <Box sx={{ width: '100%', height: '30%' }}>
       <aside>
+      <button onClick={() => setDialogOpen(true)}>Open Dialog</button>
+      {dialogOpen && (
+        <DialogComponent
+          title="Resizable Dialog"
+          onClose={() => setDialogOpen(false)}
+        >
+          {/* Your dialog content goes here */}
+          <p>This is the content of the dialog.</p>
+        </DialogComponent>
+      )}
         <div className="description">
           You can drag these nodes to the bottom
         </div>

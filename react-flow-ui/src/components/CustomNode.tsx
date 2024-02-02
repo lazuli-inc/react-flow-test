@@ -3,6 +3,7 @@ import { Handle, Position, NodeProps, useReactFlow } from 'reactflow';
 import { Box, Typography, IconButton } from '@mui/material';
 import { Clear } from '@mui/icons-material/';
 import Image from 'next/image';
+import { Card } from 'src/components/ui/card';
 
 type NodeData = {
   label: string;
@@ -34,20 +35,21 @@ const CustomNode: FC<NodeProps> = ({
         <Clear />
       </IconButton>
 
-      <Box
-        sx={{
-          backgroundColor: '#FFFFFF',
-          height: '60px',
-          width: '60px',
-          border: 1,
-          borderColor: '#E0E0E0',
-          borderRadius: '3px',
-          padding: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+      <Card
+      className='z-10'
+        // sx={{
+        //   backgroundColor: '#FFFFFF',
+        //   height: '60px',
+        //   width: '60px',
+        //   border: 1,
+        //   borderColor: '#E0E0E0',
+        //   borderRadius: '3px',
+        //   padding: '10px',
+        //   display: 'flex',
+        //   flexDirection: 'column',
+        //   justifyContent: 'center',
+        //   alignItems: 'center',
+        // }}
       >
         <Image src={data.image} alt={data.image} width={50} height={50} />
         <Handle
@@ -64,7 +66,7 @@ const CustomNode: FC<NodeProps> = ({
           style={{ background: '#8A91AE' }}
           isConnectable={isConnectable}
         />
-      </Box>
+      </Card>
       <Typography sx={{ fontSize: '12px', color: '#525F90' }}>
         {data.label}
       </Typography>
